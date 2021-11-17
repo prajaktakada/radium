@@ -1,4 +1,13 @@
 const mongoose=require('mongoose')
+// //
+// const bookSchema=new mongoose.Schema({
+//     bookName:String,
+//     authorName:String,
+//     category:String,
+//     year:Number
+// },{timestamps: true})
+
+// module.exports=mongoose.model("Book",bookSchema) //books
 
 const userSchema=new mongoose.Schema({
     firstName: String,
@@ -20,5 +29,5 @@ const userSchema=new mongoose.Schema({
 
 module.exports=mongoose.model('User',userSchema)
 
-// String, Number
-// Boolean, Object/json, array
+  // String, Number
+  // Boolean, Object/json, array

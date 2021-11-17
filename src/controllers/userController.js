@@ -1,5 +1,6 @@
 const UserModel= require("../models/userModel.js")
 
+
 const createUser= async function (req, res) {
     var data= req.body
     let savedData= await UserModel.create(data)
