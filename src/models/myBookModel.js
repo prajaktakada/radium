@@ -8,12 +8,16 @@ const bookSchema= new mongoose.Schema({
         type: String,
         required: true
     },
+   author: {       //yeshi name humae populate ke under likha hai
+        type: ObjectId,
+        ref: 'MyAuthor'
+    },
     prices:Number,
     rating:Number,
 
-    author: {       //yeshi name humae populate ke under likha hai
-        type: ObjectId,
-        ref: 'MyAuthor'
+    publisher:{
+        type:ObjectId,
+        ref:'Publisher'
     }
    
    
