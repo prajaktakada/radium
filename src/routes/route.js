@@ -1,16 +1,21 @@
 const express = require('express');
+
 const router = express.Router();
 
 
 
-const myAuthorController=require("../controllers/myAuthorController")
-const myBookController=require("../controllers/myBookController")
-const publisherController=require("../controllers/publisherController")
+const authmiddleware= require("../middleware/authmiddleware")
 
-router.post('/createmyAuthor', myAuthorController.createmyAuthor)
-router.post('/createMyBook', myBookController.createMyBook)
-router.post('/ bookwthauthorpublisher',myBookController.bookwthauthorpublisher)
-router.get('/getBooks', myBookController.getBooks)
+const userController=require("../controllers/userController")
 
-router.post('/createpublisher',publisherController.createpublisher)
+
+router.post('/registerUser', userController.registerUser)
+
+router.post('/loginUser',userController.loginUser)
+
+ router.get('/users/:userId',authmiddleware.tokenCheck,userController.getUserDetails )
+
+router.put('/users/:userId',authmiddleware.tokenCheck,userController.putuserDetails)
+
+
 module.exports = router;
