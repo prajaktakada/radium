@@ -45,11 +45,14 @@ let loginUser = async function(req,res){
 let getUserDetails  = async function(req,res){
       
     if(req.validToken._id==req.params.userId){
+        
+            
  let user = await userModel.findOne({_id:req.params.userId,isDeleted:false})
-    
+     
       if(user){
         res.send({data:user})
-    }else{
+      }
+    else{
         res.send({msg:"user not found"})
     }
 }else{

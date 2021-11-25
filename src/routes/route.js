@@ -7,7 +7,7 @@ const authmiddleware= require("../middleware/authmiddleware")
 
 const userController=require("../controllers/userController")
 
-
+// router.post('/.gyruegbcg)
 router.post('/registerUser', userController.registerUser)
 
 router.post('/loginUser',userController.loginUser)

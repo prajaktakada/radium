@@ -14,7 +14,7 @@ mongoose.connect(" mongodb+srv://users-open-to-all:hiPassword123@cluster0.uh35t
     .then(() => console.log('mongodb running on 27017'))
     .catch(err => console.log(err))
 
-app.use('/', route);
+app.use('/', route); //impoet thid
 
 app.listen(process.env.PORT || 3000, function() {
 	console.log('Express app running on port ' + (process.env.PORT || 3000))
