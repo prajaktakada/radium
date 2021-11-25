@@ -1,20 +1,21 @@
 const express = require('express');
-
 const router = express.Router();
 
+const cowinController= require("../controllers/cowinController")
+const whetherController=require("../controllers/whetherController")
 
-const authmiddleware= require("../middleware/authmiddleware")
+router.get("/cowin/states", cowinController.getStatesList)
+router.get("/cowin/districts/:stateId", cowinController.getDistrictsList)
+router.get("/cowin/centers", cowinController.getByPin)
+router.post("/cowin/getOtp", cowinController.getOtp)
 
-const userController=require("../controllers/userController")
+router.get('/wetheroflondon',whetherController.wetheroflondon)
+router.get('/tempratureoflondon',whetherController.tempratureoflondon)
+router.get('/getWeather',whetherController.getWeather )
 
 
-router.post('/registerUser', userController.registerUser)
 
-router.post('/loginUser',userController.loginUser)
 
- router.get('/users/:userId',authmiddleware.tokenCheck,userController.getUserDetails )
-
-router.put('/users/:userId',authmiddleware.tokenCheck,userController.putuserDetails)
 
 
 module.exports = router;
