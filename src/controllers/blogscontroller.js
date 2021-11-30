@@ -2,6 +2,8 @@ const BlogsModel = require("../models/Blogs_Model")
 const AuthorModel = require("../models/Author_Model")
 const mongoose = require("mongoose")
 
+//phase-1
+//2.POST /blogs
 const createBlogs = async function (req, res) {
 
     let data = req.body
@@ -15,6 +17,7 @@ const createBlogs = async function (req, res) {
     }
 }
 
+//3.GET /blogs
 const getBlogs = async function (req, res) {
     try {
 
@@ -39,6 +42,7 @@ const getBlogs = async function (req, res) {
 
 }
 
+//4.PUT /blogs/:blogId
 const update = async function (req, res) {
 
     let userbody = await BlogsModel.findOne({_id: req.params.blogId})
@@ -72,6 +76,7 @@ const update = async function (req, res) {
 
 }
 
+//5.DELETE /blogs/:blogId
 const DeleteBlogs = async function (req, res) {
 
     let blogId = req.params.deleteId
@@ -84,6 +89,7 @@ const DeleteBlogs = async function (req, res) {
     }
 }
 
+//5.DELETE /blogs?queryParams
 const DeleteBlogsbyParam = async function (req, res) {
     let info = req.query
     let userbody = await BlogsModel.findOne(info)

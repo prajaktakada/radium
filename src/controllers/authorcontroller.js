@@ -1,6 +1,7 @@
 const AuthorModel = require("../models/Author_Model")
 const mongoose = require("mongoose")
 
+//1.Author APIs /authors
 const createAuthor = async function (req, res) {
 
     const data = req.body

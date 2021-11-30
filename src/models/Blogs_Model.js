@@ -5,6 +5,7 @@
 // createdAt, updatedAt, deletedAt: {when the document is deleted}, isDeleted: {boolean, default: false},
 //  publishedAt: {when the blog is published}, isPublished: {boolean, default: false}}
 
+//
 const mongoose = require('mongoose')
 
 const BlogsSchema = new mongoose.Schema({
