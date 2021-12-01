@@ -9,7 +9,7 @@ const Middleware=require("../middleware/Authentication")
 router.get('/test-me', function (req, res) {
     res.send('My first ever api!')
 });
-
+//
 router.post('/createAuthor',AuthorController.createAuthor)
 router.post('/createBlogs',Middleware.Auth,BlogsController.createBlogs)
 router.get('/getBlogs',Middleware.Auth,BlogsController.getBlogs)

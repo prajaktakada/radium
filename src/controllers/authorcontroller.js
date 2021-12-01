@@ -13,6 +13,7 @@ const createAuthor = async function (req, res) {
     }
 }
 
+//1.
 const login = async function (req, res) {
     try {
         let useremail = req.body.email
@@ -20,10 +21,10 @@ const login = async function (req, res) {
         if (useremail && userpassword) {
             let User = await AuthorModel.findOne({ email: useremail, password: userpassword, isDeleted: false })
 
-            if (User) {
-                const Token = jwt.sign({ userId: User._id }, "Group4")
+            if (User) {                 //userId
+                const Token = jwt.sign({ userId: User._id }, "Group4") //({payload,"secreate key"})
                 res.header('x-api-key', Token)
-             //Baba Ramdev->eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWE0YjVkNTIxNjUyOWJmNjQxMzJhNDQiLCJpYXQiOjE2MzgyNzA1NDl9.0lF59jcVftwL40SzejIeWKYCIm-1Phf89E4w1Kr3FA4
+            
                 res.status(200).send({ status: true })
             } else {
                 res.status(400).send({ status: false, Msg: "Invalid Credentials" })

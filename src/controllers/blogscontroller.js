@@ -2,6 +2,7 @@ const BlogsModel = require("../models/Blogs_Model")
 const AuthorModel = require("../models/Author_Model")
 const mongoose = require("mongoose")
 
+//Authentication
 const createBlogs = async function (req, res) {
     try {
 
@@ -21,7 +22,7 @@ const createBlogs = async function (req, res) {
     }
 }
 
-
+//Authentication
 const getBlogs = async function (req, res) {
     try {
 
@@ -46,6 +47,7 @@ const getBlogs = async function (req, res) {
     }
 }
 
+//Authorisation put
 const update = async function (req, res) {
     try {
         let decodedUserToken = req.user
@@ -53,7 +55,7 @@ const update = async function (req, res) {
         console.log(decodedUserToken.userId)
         console.log(BlogUser.authorId)
 
-        if (decodedUserToken.userId == BlogUser.authorId) {
+        if (decodedUserToken.userId == BlogUser.authorId) { //
             if (BlogUser) {
                 if (BlogUser.isDeleted === false) {
 
@@ -85,6 +87,7 @@ const update = async function (req, res) {
     }
 }
 
+//Authorisation
 const DeleteBlogs = async function (req, res) {
     try {
         let decodedUserToken = req.user
@@ -107,6 +110,7 @@ const DeleteBlogs = async function (req, res) {
     }
 }
 
+//Authorisation
 const DeleteBlogsbyQuery = async function (req, res) {
     try {
         // console.log(req.query.authorId)

@@ -1,4 +1,4 @@
-
+//
 // { title: {mandatory}, body: {mandatory}, authorId: {mandatory, refs to author model}, tags: {array of string}, 
 // category: {string, mandatory, examples: [technology, entertainment, life style, food, fashion]}, 
 // subcategory: {array of string, examples[technology-[web development, mobile development, AI, ML etc]] }, 
