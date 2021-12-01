@@ -50,26 +50,21 @@ const update = async function (req, res) {
     try {
         let decodedUserToken = req.user
         let BlogUser = await BlogsModel.findOne({ _id: req.params.blogId })
-        console.log(decodedUserToken.userId)
-        console.log(BlogUser.authorId)
+        // console.log(decodedUserToken.userId)
+        // console.log(BlogUser.authorId)
 
         if (decodedUserToken.userId == BlogUser.authorId) {
             if (BlogUser) {
                 if (BlogUser.isDeleted === false) {
 
                     let tempbody = await BlogsModel.findOneAndUpdate({ _id: BlogUser._id }, { $set: { "title": req.body.title, "body": req.body.body, "category": req.body.category }, $push: { "tags": req.body.tags, "subcategory": req.body.subcategory } }, { new: true })
-
-
                     if (req.body.isPublished === true) {
                         let newdata = await BlogsModel.findOneAndUpdate({ _id: BlogUser._id }, { "isPublished": req.body.isPublished, "publishedAt": Date.now() }, { new: true })
                         res.status(200).send({ status: true, data: newdata })
                     }
-
                     else {
                         res.status(200).send({ status: true, data: tempbody })
-
                     }
-
                 } else {
                     res.status(404).send({ err: "the data is already deleted " })
                 }
@@ -109,9 +104,12 @@ const DeleteBlogs = async function (req, res) {
 
 const DeleteBlogsbyQuery = async function (req, res) {
     try {
-        // console.log(req.query.authorId)
-        // console.log(req.user.userId)
-        if (req.user.userId == req.query.authorId) {
+   
+        let decodedUserToken = req.user
+        info=req.query
+        let BlogUser = await BlogsModel.findOne({info})
+        console.log(BlogUser.authorId)
+        if (req.user.userId ===BlogUser.authorId) {
             let info = req.query
             let userbody = await BlogsModel.findOne(info)
             let tempdata = await BlogsModel.findOneAndUpdate({ id: userbody._id, isDeleted: false }, { isDeleted: true, deletedAt: Date() })
