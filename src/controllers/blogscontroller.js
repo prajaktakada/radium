@@ -57,7 +57,7 @@ const update = async function (req, res) {
             if (BlogUser) {
                 if (BlogUser.isDeleted === false) {
 
-                    let tempbody = await BlogsModel.findOneAndUpdate({ _id: BlogUser._id }, { $set: { "title": req.body.title, "body": req.body.body, "category": req.body.category }, $push: { "tags": req.body.tags, "subcategory": req.body.subcategory } }, { new: true })
+                    let tempbody = await BlogsModel.findOneAndUpdate({ _id: BlogUser._id }, {  $push: { "tags": req.body.tags, "subcategory": req.body.subcategory }, $set:{ "title": req.body.title, "body": req.body.body, "category": req.body.category } }, { new: true })
                     if (req.body.isPublished === true) {
                         let newdata = await BlogsModel.findOneAndUpdate({ _id: BlogUser._id }, { "isPublished": req.body.isPublished, "publishedAt": Date.now() }, { new: true })
                         res.status(200).send({ status: true, data: newdata })
@@ -108,12 +108,11 @@ const DeleteBlogsbyQuery = async function (req, res) {
         let decodedUserToken = req.user
         info=req.query
         let BlogUser = await BlogsModel.findOne({info})
-        console.log(BlogUser.authorId)
-        if (req.user.userId ===BlogUser.authorId) {
-            let info = req.query
-            let userbody = await BlogsModel.findOne(info)
-            let tempdata = await BlogsModel.findOneAndUpdate({ id: userbody._id, isDeleted: false }, { isDeleted: true, deletedAt: Date() })
-            if (tempdata) {
+        // console.log(decodedUserToken.userId )
+        // console.log(BlogUser.authorId)
+        if (decodedUserToken.userId ==BlogUser.authorId) {
+            let tempdata = await BlogsModel.findOneAndUpdate({ id: BlogUser._id, isDeleted: false }, { isDeleted: true, deletedAt: Date() })
+            if (BlogUser) {
 
                 res.status(200).send()
             } else {
