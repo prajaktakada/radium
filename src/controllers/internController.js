@@ -14,7 +14,7 @@ const isValidRequestBody = function (requestBody) {
 }
 
 //let interests = [];
-//let aaa ;
+
 
 // creating college
 
