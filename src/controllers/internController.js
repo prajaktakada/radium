@@ -4,8 +4,8 @@ const CollegeModel = require('../models/collegeModel')
 const regexMobile = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/;
 
 const isValid = function (value) {
-    if (typeof value === 'undefined' || value === null) return false
-    if (typeof value === 'string' && value.trim().length === 0) return false
+    if (typeof value === 'undefined' || value === null ) return false
+    if (typeof value === 'string'  && value.trim().length === 0) return false
     return true;
 }
 
@@ -56,7 +56,7 @@ const createIntern = async function (req, res) {
         mobile = mobile.trim();
 
         if(!(regexMobile.test(mobile))){
-            res.status(400).send({status: false, message: `mobile should be valid `})
+            res.status(400).send({status: false, message: `mobile should be valid `}) 
             return
         }
 
@@ -83,18 +83,18 @@ const createIntern = async function (req, res) {
         //validation ends
          let nm = req.body.collegeName;
          //console.log(nm)
-        const collegeData = await CollegeModel.findOne({name: nm })
+        const collegeData = await CollegeModel.findOne({name: nm , isDeleted: false})
         //console.log(collegeData)
 
         if(!collegeData){
-            res.status(400).send({status: false, message: ` not a valid college name`})
+            res.status(400).send({status: false, message: ` not a valid college name or the college is not active at present`})
         }
 
    
         let Id = collegeData._id;
-        console.log(Id)
+       // console.log(Id)
         req.body.collegeId = Id;
-       console.log(req.body)
+       //console.log(req.body)
 
         const internData = {name, email, mobile,  collegeId:Id }
         const createIntern = await InternModel.create(internData);
@@ -103,6 +103,7 @@ const createIntern = async function (req, res) {
 
     } catch (err) {
         res.status(500).send({ status: false, message: err.message });
+        return
 
     }
 }
@@ -111,16 +112,13 @@ const getCollegeDetails = async function (req, res){
     try{
         let que = req.query;
         if(!isValidRequestBody(que)){
-            res.status(400).send({status: false, msg: `Invalid request. No request passed in the query`})
+            res.status(400).send({status: false, msg: `Invalid request. No request passed in the query`}) 
             return
         }
         let collegeAbb = req.query.name;
-        // if(!isValid(que)){
-        //     res.status(400).send({ status: false, message: 'Invalid request parameters.  query not passed' })
-        //     return
-        // }
-        let collegeDetail = await CollegeModel.findOne({name: collegeAbb})//.select({name: 1, fullName: 1, logoLink: 1})
-        //console.log(collegeDetail)
+       
+        let collegeDetail = await CollegeModel.findOne({name: collegeAbb, isDeleted: false})//.select({name: 1, fullName: 1, logoLink: 1})
+      //console.log(collegeDetail)
 
         if(!isValid(collegeDetail)){
             res.status(400).send({ status: false, message: `Invalid request parameters. ${collegeAbb} is not a valid college name` })
@@ -130,35 +128,19 @@ const getCollegeDetails = async function (req, res){
         clgId = collegeDetail._id;
        // console.log(clgId)
 
-         let internsData = await InternModel.find({collegeId: clgId}).select({_id: 1, name:1,email: 1, mobile: 1})
+         let internsData = await InternModel.find({collegeId: clgId, isDeleted: false}).select({_id: 1, name:1,email: 1, mobile: 1})
          if(internsData.length == 0){
-            res.status(400).send({ status: false, message: ` No interns applied for this college` })
+            res.status(204).send({ status: true, message: ` No interns applied for this college` })
             return
          }
-        // interests.push(internsData)
-       // console.log(internsData)
-
-        // for(let i = 0; i<internsData.length; i++){
-        //     let obj = internsData[i];
-        //     interests.push(obj)
-        // }
-        // console.log(interests)
+       
         let newData = {
             name: collegeDetail.name, 
             fullName: collegeDetail.fullName, 
             logoLink: collegeDetail.logoLink,
             internsData: internsData 
         }
-     // collegeDetail.name = aaa[name];
 
-    //   
-    //   let aaa.fullName = collegeDetail.fullName;
-    //   let aaa.logoLink = collegeDetail.logoLink;
-    //   let aaa.interests = internsData;
-    //   console.log(aaa)
-
-    // var result = Object.keys(collegeDetail).map((key) => [Number(key), collegeDetail[key]]);
-    // console.log(result)
         res.status(200).send({ status: true, message: `college details with intern ` , data: newData })
 
     }catch(err){

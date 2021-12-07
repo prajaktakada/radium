@@ -14,7 +14,7 @@ const isValidRequestBody = function (requestBody) {
 
 const createCollege = async function (req, res) {
     try {
-        const requestBody = req.body;
+        const requestBody = req.body; 
         if (!isValidRequestBody(requestBody)) {
             res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide college details' })
             return
@@ -22,7 +22,7 @@ const createCollege = async function (req, res) {
 
         //extract params
 
-        const { name, fullName, logoLink } = requestBody;
+        let { name, fullName, logoLink } = requestBody;
 
         //validation starts
 
@@ -30,6 +30,8 @@ const createCollege = async function (req, res) {
             res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide valid name' })
             return
         }
+
+        name = name.toLowerCase();
 
         if (!isValid(fullName)) {
             res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide valid fullName' })
@@ -43,7 +45,7 @@ const createCollege = async function (req, res) {
         const isNameAlreadyUsed = await CollegeModel.findOne({name}); 
 
         if(isNameAlreadyUsed) {
-            res.status(400).send({status: false, message: `${name} name is already registered`})
+            res.status(400).send({status: false, message: `${name} is already registered`})
             return
         }
 
