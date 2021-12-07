@@ -28,7 +28,7 @@ const createIntern = async function (req, res) {
 
         //extract params
 
-        const { name, email, mobile, collegeName } = requestBody;
+        let { name, email, mobile, collegeName } = requestBody;
 
         //validation starts
 
@@ -41,15 +41,19 @@ const createIntern = async function (req, res) {
             res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide valid email' })
             return
         }
+         email = email.trim();
+        
         if(!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))) {
             res.status(400).send({status: false, message: `Email should be a valid email address`})
             return
         }
+         
 
         if (!isValid(mobile)) {
             res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide valid mobile' })
             return
         }
+        mobile = mobile.trim();
 
         if(!(regexMobile.test(mobile))){
             res.status(400).send({status: false, message: `mobile should be valid `})
@@ -87,12 +91,12 @@ const createIntern = async function (req, res) {
         }
 
    
-        let collegeId = collegeData._id;
-        //console.log(collegeId)
-        req.body.collegeId = collegeId;
-       // console.log(req.body)
+        let Id = collegeData._id;
+        console.log(Id)
+        req.body.collegeId = Id;
+       console.log(req.body)
 
-        const internData = {name, email, mobile,  collegeId }
+        const internData = {name, email, mobile,  collegeId:Id }
         const createIntern = await InternModel.create(internData);
 
         res.status(201).send({ status: true, message: `college created successfully`, data: createIntern });
