@@ -2,20 +2,41 @@ const express = require('express');
 
 const router = express.Router();
 
-const AuthorController=require("../controllers/authorcontroller")
-const BlogsController=require("../controllers/blogscontroller")
-const Middleware=require("../middleware/Authentication")
+const usercontroller=require("../controllers/usercontroller")
+const bookcontroller=require("../controllers/bookcontroller")
+const Reviewcontroller=require("../controllers/Reviewcontroller")
+ const Middleware=require("../middleware/Authentication")
 
 router.get('/test-me', function (req, res) {
     res.send('My first ever api!')
 });
 
-router.post('/createAuthor',AuthorController.createAuthor)
-router.post('/createBlogs',Middleware.Auth,BlogsController.createBlogs)
-router.get('/getBlogs',Middleware.Auth,BlogsController.getBlogs)
-router.put('/update/:blogId',Middleware.Auth,BlogsController.update)
-router.delete('/DeleteBlogs/:deleteId',Middleware.Auth,BlogsController.DeleteBlogs)
-router.delete('/DeleteBlogsbyQuery',Middleware.Auth,BlogsController.DeleteBlogsbyQuery)
-router.post('/login',AuthorController.login)
+//USER API
+router.post('/registerUser',usercontroller.registerUser)
+ router.post('/login',usercontroller.login)
+
+
+ //BOOK API
+ 
+router.post('/createbooks',Middleware.Auth,bookcontroller.createbooks) //authorisation
+
+router.get('/getbooks',Middleware.Auth,bookcontroller.getbooks)
+ router.put('/books/:bookId',Middleware.Auth,bookcontroller.update ) //authorisation
+ router.get('/books/:bookId',Middleware.Auth,bookcontroller.getBookWithReview )
+
+  router.delete('/books/:bookId',Middleware.Auth,bookcontroller.deletebookbyID) //authorisation
+//router.delete('/books/:bookId',bookcontroller.deletebookbyID) 
+
+ //Reiew API 
+ router.post('/books/:bookId/review',Reviewcontroller.bookreview)
+router.put('/books/:bookId/review/:reviewId',Reviewcontroller.updateReviews)
+ router.delete('/books/:bookId/review/:reviewId',Reviewcontroller.deleteReviewOfBook )
+
+
+
+
+
+
+
 
 module.exports = router;
