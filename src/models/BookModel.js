@@ -7,52 +7,52 @@ const BooksSchema = new mongoose.Schema({
 
     title: {
         type: String,
-        required:'title is required',
+        required: 'title is required',
         unique: true,
-        trim:true
+        trim: true
     },
     excerpt: {
         type: String,
-        required:'excerpt is required',
-        trim:true
+        required: 'excerpt is required',
+        trim: true
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: 'userID is required',
-        trim:true
+        trim: true
     },
 
-    
+
     ISBN: {
         type: String,
-        required:'ISBN is required',
+        required: 'ISBN is required',
         unique: true,
-        trim:true
+        trim: true
     },
 
     category: {
         type: String,
-        required:'category is required',
-        trime:true
-    
+        required: 'category is required',
+        trim: true
+
     },
 
     subcategory: {
-        type:String,
-        required:'subcategory is required',
-        trim:true
+        type: String,
+        required: 'subcategory is required',
+        trim: true
     },
 
     reviews: {
-        type:Number,
+        type: Number,
         default: 0
-    //     comment:{
-    //      type:ObjectId
+        //     comment:{
+        //      type:ObjectId
         //ref:'Review'
         //default:0
 
-    //  }
+        //  }
     },
 
     deletedAt: {
@@ -60,31 +60,31 @@ const BooksSchema = new mongoose.Schema({
         type: Date,
         // type: Date.now(),
         default: null
-        
-    }, 
 
-    isDeleted:{
+    },
+
+    isDeleted: {
         type: Boolean,
         default: false
     },
 
-    releasedAt:{
+    releasedAt: {
 
         type: Date,
-        default: Date.now(),
-        required:'releasedat is required'
+        // default: Date.now(),
+        required: 'releasedat is required'
 
     }
 
 
 }, { timestamps: true })
 
-module.exports = mongoose.model('Books', BooksSchema )
-
-    
+module.exports = mongoose.model('Books', BooksSchema)
 
 
-    
 
-   
+
+
+
+
 

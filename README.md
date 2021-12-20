@@ -9,7 +9,7 @@ Author APIs /authors
 Create an author - atleast 5 authors
 Create a author document from request body. Endpoint: BASE_URL/authors
 POST /blogs
-Create a blog document from request body. Get authorId in request body only.
+Create a blog document from request body. Get authorId in request body only
 
 Make sure the authorId is a valid authorId by checking the author exist in the authors collection.
 

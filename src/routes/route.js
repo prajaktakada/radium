@@ -25,7 +25,7 @@ router.get('/getbooks',Middleware.Auth,bookcontroller.getbooks)
  router.get('/books/:bookId',Middleware.Auth,bookcontroller.getBookWithReview )
 
   router.delete('/books/:bookId',Middleware.Auth,bookcontroller.deletebookbyID) //authorisation
-//router.delete('/books/:bookId',bookcontroller.deletebookbyID) 
+// router.delete('/books/:bookId',bookcontroller.deletebookbyID) 
 
  //Reiew API 
  router.post('/books/:bookId/review',Reviewcontroller.bookreview)
