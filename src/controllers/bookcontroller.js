@@ -121,7 +121,7 @@ const createbooks = async function (req, res) {
         
         const bookData={title,excerpt,userId,ISBN,category,subcategory,releasedAt: releasedAt? releasedAt : "releasedAt field"}
         let savedbook = await BookModel.create(bookData)
-        res.status(201).send({ status: true,message:'book created succesfully', data: savedbook })
+        res.status(201).send({ status: true,message:'created succesfully', data: savedbook })
     }
     catch (err) {
          res.status(500).send({ status: false, message: err.message })
