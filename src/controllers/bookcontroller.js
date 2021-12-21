@@ -26,111 +26,132 @@ const isValidObjectId =function(ObjectId){
 // }
 
 //
+
+//POST /login         
 const createbooks = async function (req, res) {
     try {
+        let decodedUserToken = req.user;
+        const requestBody = req.body;
 
-        let decodedUserToken =req.user 
-        const requestBody= req.body
+        if (!(decodedUserToken.userId === requestBody.userId)) {
+            return res
+                .status(400)
+                .send({ status: false, message: "token id or user id not matched" });
+        }
+        if (!isValidrequestBody(requestBody)) {
+            res
+                .status(400)
+                .send({ status: false, message: "request body is not found" });
+        }
 
-        if(!(decodedUserToken.userId===requestBody.userId)){
-            return res.status(400).send({status:false,message:'token id and user id not matched'})
-        }
-        if(!isValidrequestBody(requestBody)){
-            res.status(400).send({status:false,message:'request body is not found'})
-        }
-         
         //extract params
-        const{title,excerpt,userId,ISBN,category,subcategory,review,releasedAt}=requestBody
+        const {
+            title,
+            excerpt,
+            userId,
+            ISBN,
+            category,
+            subcategory,
+            review,
+            releasedAt,
+        } = requestBody;
 
-         if(!isValid(title)){
-             res.status(400).send({status:false,message:'title is required'})
-             return
-         }
-
-         if(!isValid(excerpt)){
-             res.status(400).send({status:false,message:'body is required'})
-            return
-         }
-
-         excerpt=excerpt.trim()
-        
-         if(!isValid(userId)){
-             res.status(400).send({status:false,message:'userId requred'})
-             return
-         }
-
-         if(!isValidObjectId(userId)){
-             res.status(400).send({status:false,message:'object id is required'})
-             return
-         }
-
-         
-         if(!isValid(category)){
-             res.status(400).send({status:false,message:'category required'})
-             return
-         }
-
-         category=category.trim()
-
-         if(!isValid(subcategory)){
-             res.status(400).send({status:false,message:'subcategory required'})
-            return
+        if (!isValid(title)) {
+            res.status(400).send({ status: false, message: "title is required" });
+            return;
         }
 
-        subcategory=subcategory.trim()
-
-        const isISBNAlreadyUsed = await BookModel.findOne({ISBN}); 
-
-        if( isISBNAlreadyUsed ) {
-            res.status(400).send({status: false, message: `${ISBN} ISBN is already registered`})
-            return
-        }
-        
-
-        const istitleAlreadyUsed = await BookModel.findOne({title}); 
-
-        if( istitleAlreadyUsed ) {
-            res.status(400).send({status: false, message: `${title} title is already registered`})
-            return
+        if (!isValid(excerpt)) {
+            res.status(400).send({ status: false, message: "excerpt required" });
+            return;
         }
 
-        if(!isValid(userId)) {
-            res.status(400).send({status: false, message: 'userId is required'})
-            return
+        if (!isValid(userId)) {
+            res.status(400).send({ status: false, message: "userId requred" });
+            return;
         }
 
-        if(!isValidObjectId(userId)) {
-            res.status(400).send({status: false, message: `${userId} is not a valid userId`})
-            return
+        if (!isValidObjectId(userId)) {
+            res.status(400).send({ status: false, message: "object id is required" });
+            return;
         }
-       let user= await UserModel.findById(userId)
+
+        if (!isValid(category)) {
+            res.status(400).send({ status: false, message: "category required" });
+            return;
+        }
+
+        if (!isValid(subcategory)) {
+            res.status(400).send({ status: false, message: "subcategory required" });
+            return;
+        }
+
+        if (!isValid(releasedAt)) {
+            res.status(400).send({ status: false, message: "releasedAt required" });
+            return;
+        }
+
+        const istitleAlreadyUsed = await BookModel.findOne({ title });
+
+        if (istitleAlreadyUsed) {
+            res
+                .status(400)
+                .send({ status: false, message: `${title} title is already exist` });
+            return;
+        }
+
+        const isISBNAlreadyUsed = await BookModel.findOne({ ISBN });
+
+        if (isISBNAlreadyUsed) {
+            res
+                .status(400)
+                .send({ status: false, message: `${ISBN} ISBN is already exist` });
+            return;
+        }
+
+        if (!isValid(userId)) {
+            res.status(400).send({ status: false, message: "userId is required" });
+            return;
+        }
+
+        if (!isValidObjectId(userId)) {
+            res
+                .status(400)
+                .send({ status: false, message: `${userId} is not a valid userId` });
+            return;
+        }
+        let user = await UserModel.findById(userId);
 
         if (!user) {
-            res.status(400).send({ status: false, message: "user_Id not found" })
-            return
-        } 
-
-        // console.log(releasedAt)
-        if(!isValid(releasedAt)){
-            res.status(400).send({status:false,message:'releasedAt requred'})
-            return
+            res.status(400).send({ status: false, message: "user_Id not found" });
+            return;
         }
 
-         
         //validation end
-        
-        const bookData={title,excerpt,userId,ISBN,category,subcategory,releasedAt: releasedAt? releasedAt : "releasedAt field"}
-        let savedbook = await BookModel.create(bookData)
-        res.status(201).send({ status: true,message:'created succesfully', data: savedbook })
-    }
-    catch (err) {
-         res.status(500).send({ status: false, message: err.message })
-        
-    }
-}
 
- module.exports.createbooks = createbooks 
+        const bookData = {
+            title,
+            excerpt,
+            userId,
+            ISBN,
+            category,
+            subcategory,
+            releasedAt: releasedAt ? releasedAt : "releasedAt field is mandatory",
+        };
+        let savedbook = await BookModel.create(bookData);
+        res
+            .status(201)
+            .send({
+                status: true,
+                message: "book created succesfully",
+                data: savedbook,
+            });
+    } catch (err) {
+        res.status(500).send({ status: false, message: err.message });
+    }
+};
 
+module.exports.createbooks = createbooks;
 
 
 //GET /books 

@@ -96,6 +96,11 @@ const registerUser = async function (req, res) {
             return res.status(400).send({ status: false, message: `Password length should be between 8 and 15.` })
         }
 
+        if (!isValid(email)) {
+            res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide valid email' })
+            return
+        }
+        //  email = email.trim();
 
 
         const isNumberAlreadyUsed = await UserModel.findOne({ phone });
@@ -111,13 +116,6 @@ const registerUser = async function (req, res) {
             return
         }
 
-
-
-        if (!isValid(email)) {
-            res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide valid email' })
-            return
-        }
-        //  email = email.trim();
 
         if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))) {
             res.status(400).send({ status: false, message: `Email should be a valid email address` })

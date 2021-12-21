@@ -25,8 +25,14 @@ const bookreview = async function (req, res) {
         const requestBody = req.body
         const bookId = req.params.bookId
 
-        const book = await BookModel.findById({ _id: bookId, isDeleted: false })
+        if(!isValidObjectId(bookId)){
+            res.status(400).send({status: false, msg: `Invalid request. No request passed in the query`}) 
+            return
+        }
 
+        const book = await BookModel.findOne({ _id:bookId,isDeleted:false })
+
+        console.log(book)
         if (!book) {
             res.status(404).send({ status: false, message: `book not found` })
             return
@@ -50,7 +56,7 @@ const bookreview = async function (req, res) {
         }
 
         if (!((rating > 0) && (rating < 6))) {
-            res.status(400).send({ status: false, message: 'rating is required' })
+            res.status(400).send({ status: false, message: 'rating is required between 1 to 5' })
             return
         }
         //validation end
