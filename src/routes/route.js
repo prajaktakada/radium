@@ -7,9 +7,13 @@ const bookcontroller=require("../controllers/bookcontroller")
 const Reviewcontroller=require("../controllers/Reviewcontroller")
  const Middleware=require("../middleware/Authentication")
 
+ const awscontroller=require('../controllers/awscontroller')
+ 
 router.get('/test-me', function (req, res) {
     res.send('My first ever api!')
 });
+
+router.post('/createBookCover',awscontroller.createBookCover)
 
 //USER API
 router.post('/registerUser',usercontroller.registerUser)
@@ -18,7 +22,7 @@ router.post('/registerUser',usercontroller.registerUser)
 
  //BOOK API
  
-router.post('/createbooks',Middleware.Auth,bookcontroller.createbooks) //authorisation
+router.post('/createbooks',bookcontroller.createbooks) //authorisation
 
 router.get('/getbooks',Middleware.Auth,bookcontroller.getbooks)
  router.put('/books/:bookId',Middleware.Auth,bookcontroller.update ) //authorisation

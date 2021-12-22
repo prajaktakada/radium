@@ -11,17 +11,23 @@ const BooksSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+
+    bookcover:{
+        type: String,
+        // unique: true,
+        required:true
+    },
     excerpt: {
         type: String,
         required: 'excerpt is required',
         trim: true
     },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: 'userID is required',
-        trim: true
-    },
+    // userId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     required: 'userID is required',
+    //     trim: true
+    // },
 
 
     ISBN: {
@@ -79,7 +85,7 @@ const BooksSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-module.exports = mongoose.model('Books', BooksSchema)
+module.exports = mongoose.model('Bookcover', BooksSchema)
 
 
 

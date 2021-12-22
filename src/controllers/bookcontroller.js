@@ -30,14 +30,14 @@ const isValidObjectId =function(ObjectId){
 //POST /login         
 const createbooks = async function (req, res) {
     try {
-        let decodedUserToken = req.user;
+        // let decodedUserToken = req.user;
         const requestBody = req.body;
 
-        if (!(decodedUserToken.userId === requestBody.userId)) {
-            return res
-                .status(400)
-                .send({ status: false, message: "token id or user id not matched" });
-        }
+        // if (!(decodedUserToken.userId === requestBody.userId)) {
+        //     return res
+        //         .status(400)
+        //         .send({ status: false, message: "token id or user id not matched" });
+        // }
         if (!isValidrequestBody(requestBody)) {
             res
                 .status(400)
@@ -48,7 +48,7 @@ const createbooks = async function (req, res) {
         const {
             title,
             excerpt,
-            userId,
+            bookcover,
             ISBN,
             category,
             subcategory,
@@ -66,15 +66,15 @@ const createbooks = async function (req, res) {
             return;
         }
 
-        if (!isValid(userId)) {
-            res.status(400).send({ status: false, message: "userId requred" });
-            return;
-        }
+        // if (!isValid(userId)) {
+        //     res.status(400).send({ status: false, message: "userId requred" });
+        //     return;
+        // }
 
-        if (!isValidObjectId(userId)) {
-            res.status(400).send({ status: false, message: "object id is required" });
-            return;
-        }
+        // if (!isValidObjectId(userId)) {
+        //     res.status(400).send({ status: false, message: "object id is required" });
+        //     return;
+        // }
 
         if (!isValid(category)) {
             res.status(400).send({ status: false, message: "category required" });
@@ -109,30 +109,20 @@ const createbooks = async function (req, res) {
             return;
         }
 
-        if (!isValid(userId)) {
-            res.status(400).send({ status: false, message: "userId is required" });
-            return;
-        }
+       
+        // let user = await UserModel.findById(userId);
 
-        if (!isValidObjectId(userId)) {
-            res
-                .status(400)
-                .send({ status: false, message: `${userId} is not a valid userId` });
-            return;
-        }
-        let user = await UserModel.findById(userId);
-
-        if (!user) {
-            res.status(400).send({ status: false, message: "user_Id not found" });
-            return;
-        }
+        // if (!user) {
+        //     res.status(400).send({ status: false, message: "user_Id not found" });
+        //     return;
+        // }
 
         //validation end
 
         const bookData = {
             title,
             excerpt,
-            userId,
+            bookcover,
             ISBN,
             category,
             subcategory,
