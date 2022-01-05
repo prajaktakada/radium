@@ -37,6 +37,8 @@ const createUser = async function (req, res){
         res.status(400).send({ status: false, message: `${email} email address is already registered` })
         return
     };
+    if(phone)
+    {
     if (!validate.isValid(phone)) {
         res.status(400).send({ status: false, message: 'phone no is required' })
         return
@@ -53,7 +55,7 @@ const createUser = async function (req, res){
         return
     };
 
-    
+}
     if (!validate.isValid(password)) {
         res.status(400).send({ status: false, message: `Password is required` })
         return
